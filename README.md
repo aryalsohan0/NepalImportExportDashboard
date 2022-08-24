@@ -34,9 +34,10 @@ There were some sub-category with quantity 0 (they were probably less than 1 uni
 
 Following libraries will be used for this project:
 
-1. Tidyverse
+1. tidyverse
 2. plotly
 3. shiny
+4. readxl
 
 ## Layout
 
