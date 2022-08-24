@@ -12,11 +12,7 @@ The dataset for this project is found in [Nepal Trade Information Portal](https:
 
 - CommodityName : Name for each commodity category and its sub-category
 
-- CountryName : Name of the country  where commodity is exported to or imported 
-
-- 
-
-- from
+- CountryName : Name of the country  where commodity is exported to or imported from
 
 - Unit : Measurement Unit of Commodity
 
@@ -24,7 +20,7 @@ The dataset for this project is found in [Nepal Trade Information Portal](https:
 
 - R_value : Total Amount of Commodity in NPR
 
-About copyright , [Nepal Trade Information Portal](https://nepaltradeportal.gov.np/report) website has following disclaimer:
+About copyright , [Nepal Trade Information Portal](https://nepaltradeportal.gov.np/) website has following disclaimer:
 
 > "*The material published on this portal, including any images, is the copyright of TEPC and MOICS of the Government of Nepal, unless otherwise stated. Such material may be only reproduced for personal or in-house use. If the material is to be published or distributed to others the copyright must be acknowledged. Any logos of the government entities represented on this website may not be reproduced without permission. Any enquiries about permission to reproduce the logos or any other material must be addressed to the Nepal Trade Information Portal Manager using the **Contact Us** form on this website.*"
 
