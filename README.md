@@ -28,6 +28,8 @@ About copyright , [Nepal Trade Information Portal](https://nepaltradeportal.gov.
 
 To make the data ready for suitable presentation or analysis, cleaning has been done using programming language R with the help of its libraries.
 
+There were some sub-category with quantity 0 (they were probably less than 1 unit), I imputed rate per unit of these commodities as average rate per unit of these sub-category. If there was only one row of particular commodity, mean couldn't be computed , so rate per unit is considered as value of that commodity whatever its quantity was.
+
 ## Libraries
 
 Following libraries will be used for this project:
@@ -35,8 +37,6 @@ Following libraries will be used for this project:
 1. Tidyverse
 2. plotly
 3. shiny
-
-
 
 ## Layout
 
