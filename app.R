@@ -19,6 +19,7 @@ ui <- fluidPage(
 	                     12,
 	                     br(),
 	                     wellPanel(
+	                         
 	                         h4(
 	                             "This dashboard app visualizes the trade flow of Nepal from different countries from fiscal year 2073/074 to 2077/078 "
 	                         ),
@@ -33,15 +34,10 @@ ui <- fluidPage(
 	                     ),
 	                     br(),
 	                     wellPanel(
-	                         HTML(
-	                             "<h4>Created by <a href = \"https://github.com/aryalsohan0/\" target = \"_blank\">Sohan Aryal.</a></h4>"
-	                         ),
-	                         h5(
-	                             "All values are in NPR. Data for this project are from "
-	                         ),
-	                         HTML(
-	                             "<h5><a href = \"https://nepaltradeportal.gov.np/report\" target = \"_blank\">Nepal Trade Information Portal.</a></h5>"
-	                         )
+	                         
+	                         helpText("Created by", a("Sohan Aryal", href = "https://github.com/aryalsohan0/", target = "_blank")),
+	                         
+	                         helpText("Data for this projecty are from", a("Nepal Trade Information Portal", href = "https://nepaltradeportal.gov.np/report", target = "_blank"))
 	                     )
 	                 )
 	             )),
