@@ -42,11 +42,6 @@ commodities_list <- export_commodities |>
 
 commodities_list <- as.vector(commodities_list$MainCommodityName)
 
-# Functions for plotting
-
-# plotExportTotalByCommo <- function(commodity)
-
-
 
 
 # Shiny App code starts from here
@@ -146,13 +141,13 @@ server <- function(input, output, session){
         selected = list_of_countries[1]
     )
     
-    # updateSelectizeInput(
-    #     session,
-    #     'country_commodity_select',
-    #     choices = commodities_list,
-    #     server = TRUE,
-    #     selected = c(commodities_list[1], commodities_list[2])
-    # )
+    updateSelectizeInput(
+        session,
+        'country_commodity_select',
+        choices = commodities_list,
+        server = TRUE,
+        selected = c(commodities_list[1], commodities_list[2])
+    )
     
 
     # First row output
