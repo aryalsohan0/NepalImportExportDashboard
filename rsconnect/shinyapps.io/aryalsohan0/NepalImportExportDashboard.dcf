@@ -1,0 +1,14 @@
+name: NepalImportExportDashboard
+title: NepalImportExportDashboard
+username:
+account: aryalsohan0
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6860356
+bundleId: 6243322
+url: https://aryalsohan0.shinyapps.io/NepalImportExportDashboard/
+when: 1661599449.68724
+lastSyncTime: 1661599449.68726
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|loadAndwrangle.R|README.md|data
