@@ -2,6 +2,14 @@
 
 Objective of this project is to create innovative and interactive dashboard that visualizes trade flow of Nepal with different countries form fiscal year 2073/2074 to 2077/2078. In Nepal, the fiscal year is 1st of Shrawan in Bikram calendar (16 July) to 31st  (last day) of  Ashad  in Bikram calendar (15 July).
 
+## Contents
+ - [Data](## Data)
+ - [Data Cleaning](## Data Cleaning)
+ - [Libraries](## Libraries)
+ - [Layout](## Layout)
+ - [ShinyApp Link](## ShinyApp Link)
+
+
 ## Data
 
 The dataset for this project is found in [Nepal Trade Information Portal](https://nepaltradeportal.gov.np/report) website which has the export/import data for each fiscal year. The website contains fiscal-year wise data on export/import. I used Import and Export report by Commodity data from fiscal year 2073/2074 to 2077/2078 which contains following information:
@@ -42,7 +50,7 @@ Following libraries will be used for this project:
 ## Layout
 
 1. **Overview**
-2. **Per-ommodity**
+2. **Per-commodity**
 3. **Per-country**
 
 ## ShinyApp Link
