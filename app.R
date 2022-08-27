@@ -120,7 +120,40 @@ ui <- fluidPage(
 	             ),
 	    
 	    # Tab for per-country info on trade
-	    tabPanel("Per-country")
+	    tabPanel("Per-country",
+	             fluidRow(column(4,
+	                 selectizeInput("selected_country", "Country",
+	                                choices = NULL,
+	                                width = "100%",
+	                                multiple = FALSE,
+	                                options = list(placeholder = "Choose a Country"))
+	             ),
+	             
+	             column(8,
+	                    selectizeInput("selected_country_commodity",
+	                                   "Commodity",
+	                                   choices = NULL,
+	                                   width = "100%",
+	                                   multiple = TRUE,
+	                                   options = list(maxItems = 4,
+	                                                  placeholder = "Choose Commodities (max 4) ")))
+	                      ),
+	             
+	             fluidRow(
+	                 
+	                 column(12, plotlyOutput("plot_balance"))
+	             ),
+	             
+	             fluidRow(
+	                 
+	                 column(6, plotlyOutput("plot_export_country_commodity")),
+	                 column(6, plotlyOutput("plot_import_country_commodity"))
+	             )
+	             
+	             
+	             
+	             
+	             )
 	)
 )
 
@@ -138,21 +171,24 @@ server <- function(input, output, session){
         "selected_country",
         choices = countries_list,
         server = TRUE,
-        selected = list_of_countries[1]
+        selected = c(countries_list[1])
     )
     
     updateSelectizeInput(
         session,
-        'country_commodity_select',
+        'selected_country_commodity',
         choices = commodities_list,
         server = TRUE,
-        selected = c(commodities_list[1], commodities_list[2])
+        selected = c(commodities_list[1])
     )
     
+    # Per-commodity Tab
 
     # First row output
    
     output$export_commodity_total <- renderPlotly({
+        
+        req(input$selected_commodity)
         
         commo_export <- export  |> 
             group_by(MainCommodityName, Year) |> 
@@ -178,6 +214,8 @@ server <- function(input, output, session){
     
     
     output$import_commodity_total <- renderPlotly({
+        
+        req(input$selected_commodity)
         
         commo_import <- import  |> 
             group_by(MainCommodityName, Year) |> 
@@ -205,6 +243,8 @@ server <- function(input, output, session){
     # Second Row Output
     
     output$top_export_countries <- renderPlotly({
+        
+        req(input$selected_commodity)
         
         top_export_country <- export |> 
             filter(MainCommodityName %in% input$selected_commodity) |> 
@@ -237,6 +277,7 @@ server <- function(input, output, session){
     
     output$top_import_countries <- renderPlotly({
         
+        req(input$selected_commodity)
         
         top_import_country <- import |> 
             filter(MainCommodityName %in% input$selected_commodity) |> 
@@ -268,6 +309,117 @@ server <- function(input, output, session){
     })
     
     
+    
+    # Per-Country Tab
+    
+    output$plot_balance <- renderPlotly({
+        
+        export_country_user <- export |> filter(CountryName == input$selected_country)
+        import_country_user <- import |> filter(CountryName == input$selected_country)
+        
+        
+        balance_country_user <- export_country_user |> 
+            group_by(Year) |> 
+            summarize(R_value =  sum(R_value)) |> 
+            inner_join((
+                import_country_user |> 
+                    group_by(Year) |> 
+                    summarize(R_value = sum(R_value))
+            ), by = "Year") |> 
+            rename(Exports = R_value.x, Imports = R_value.y) |> 
+            mutate(Exports = round(Exports/1e6,digits = 2),
+                   Imports = round(Imports/1e6,digits = 2)) |> 
+            mutate(TradeBalance = Exports - Imports) |> 
+            pivot_longer(cols = c("Exports": "TradeBalance") ,names_to = "flow", values_to = 'value' )
+        
+        
+        g4 <- ggplot(balance_country_user, aes(x = Year, y = value, fill = flow))+
+            geom_col(position = position_dodge())  +
+            theme(axis.text.y = element_text(size = 8)) +
+            theme(text = element_text(size = 10))+
+            theme(plot.title = element_text(face = "bold"))+
+            labs(
+                y = "Value  (in million NPR)",
+                x = "",
+                title = paste0("<b>Trade flow of all Commodity with ", input$selected_country, "</b>"),
+                fill = ""
+            )
+        
+        ggplotly(g4, tooltip = c("y"))  |>
+            config(displayModeBar = F) |> 
+            layout(legend = list(orientation = 'h', title = ""))
+        
+    })
+    
+    
+    output$plot_export_country_commodity <- renderPlotly({
+        
+        req(input$selected_country)
+        req(input$selected_country_commodity)
+        
+        export_country_commodity <- export |> 
+            mutate(R_value = round(R_value/1e6, digits = 2)) |> 
+            filter(CountryName == input$selected_country) |> 
+            filter(MainCommodityName %in% input$selected_country_commodity) |> 
+            group_by(MainCommodityName, Year) |> 
+            summarize(Value = sum(R_value)) 
+        
+        g5 <- ggplot(export_country_commodity, aes(x = Year,
+                                                   y = Value,
+                                                  group = MainCommodityName,
+                                                  color = MainCommodityName)) +
+            geom_line() +
+            theme(axis.text.y = element_text(size = 8)) +
+            theme(text = element_text(size = 10))+
+            theme(plot.title = element_text(face = "bold"))+
+            labs(
+                y = "Value  (in million NPR)",
+                x = "",
+                title = paste0("<b>Export of selected commodity with ", "<br>", input$selected_country, "</b>"),
+                fill = ""
+            )
+        
+        ggplotly(g5, tooltip = c("y"))  |>
+            config(displayModeBar = F) |> 
+            layout(legend = list(orientation = 'h', title = ""))
+        
+        
+    })
+    
+    
+    output$plot_import_country_commodity <- renderPlotly({
+        
+        req(input$selected_country)
+        req(input$selected_country_commodity)
+        
+        import_country_commodity <- import |> 
+            mutate(R_value = round(R_value/1e6, digits = 2)) |> 
+            filter(CountryName == input$selected_country) |> 
+            filter(MainCommodityName %in% input$selected_country_commodity) |> 
+            group_by(MainCommodityName, Year) |> 
+            summarize(Value = sum(R_value)) 
+        
+        g6 <- ggplot(import_country_commodity, aes(x = Year,
+                                                   y = Value,
+                                                   group = MainCommodityName,
+                                                   color = MainCommodityName)) +
+            geom_line() +
+            theme(axis.text.y = element_text(size = 8)) +
+            theme(text = element_text(size = 10))+
+            theme(plot.title = element_text(face = "bold"))+
+            labs(
+                y = "Value  (in million NPR)",
+                x = "",
+                title = paste0("<b>Import of selected commodity with ", "<br>", input$selected_country, "</b>"),
+                fill = ""
+            )
+        
+        ggplotly(g6, tooltip = c("y"))  |>
+            config(displayModeBar = F) |> 
+            layout(legend = list(orientation = 'h', title = ""))
+        
+        
+    })
     
     
 }
