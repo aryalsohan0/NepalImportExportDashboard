@@ -42,3 +42,9 @@ Following libraries will be used for this project:
 ## Layout
 
 1. **Overview**
+2. **Per-ommodity**
+3. **Per-country**
+
+## ShinyApp Link
+
+[Link to Shiny App](https://aryalsohan0.shinyapps.io/NepalImportExportDashboard/)
