@@ -4,10 +4,10 @@ Objective of this project is to create innovative and interactive dashboard that
 
 ## Contents
  - [Data](#Data)
- - [Data Cleaning](#Data Cleaning)
+ - [Data Cleaning](#Data-Cleaning)
  - [Libraries](#Libraries)
  - [Layout](#Layout)
- - [ShinyApp Link](#ShinyApp Link)
+ - [ShinyApp Link](#ShinyApp-Link)
 
 
 ## Data
